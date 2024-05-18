@@ -15,10 +15,10 @@ const DropDown = () => {
   const [showOption, setShowOption] = useState(false);
   const [type, setType] = useState("");
 
-  const handleOnclick = () => {
+  const handleclick = () => {
     setShowOption((preState) => !preState);
   };
-  const handleOnclickOption = (type) => {
+  const handleclickOption = (type) => {
     setType(type);
     setShowOption(false);
   };
@@ -27,7 +27,7 @@ const DropDown = () => {
     return (
       <div
         class="option-type"
-        onClick={() => handleOnclickOption(type)}
+        onClick={() => handleclickOption(type)}
         key={index}
       >
         {type}
@@ -41,9 +41,9 @@ const DropDown = () => {
       <div class="form-option">
         <input
           class="button-option"
-          onClick={handleOnclick}
+          onClick={handleclick}
           type="button"
-          value={type ? type : ""}
+          value={type ? type : "옵션"}
         ></input>
         {/* 드롭다운구현 */}
         {showOption && <>{renderOptions}</>}
