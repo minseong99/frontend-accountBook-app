@@ -10,6 +10,7 @@
   width: auto;
 }
 
-.option-type {
-  border: 1px solid gray;
+.type {
+  border: 1px solid black;
+  background-color: aqua;
 }

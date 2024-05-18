@@ -11,27 +11,28 @@ const typeList = [
   "스포츠",
 ];
 
-const DropDown = () => {
+const DropDown = (props) => {
   const [showOption, setShowOption] = useState(false);
   const [type, setType] = useState("");
 
   const handleclick = () => {
     setShowOption((preState) => !preState);
   };
-  const handleclickOption = (type) => {
+  const handleclickOption = (type, e) => {
     setType(type);
     setShowOption(false);
+    props.changeData(e);
   };
 
   const renderOptions = typeList.map((type, index) => {
     return (
-      <div
-        class="option-type"
-        onClick={() => handleclickOption(type)}
+      <input
+        class="type"
+        type="button"
+        onClick={(e) => handleclickOption(type, e)}
         key={index}
-      >
-        {type}
-      </div>
+        value={type}
+      ></input>
     );
   });
 

@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 
-const Memo = () => {
+const Memo = (props) => {
   const [showMemo, setShowMemo] = useState(false);
 
   const showInputForm = () => {
-    return <input type="text" placeholder="메모를 입력하세요"></input>;
+    return (
+      <input
+        type="text"
+        onChange={props.changeData}
+        placeholder="메모를 입력하세요"
+        className="memo"
+      ></input>
+    );
   };
 
   return (
@@ -13,7 +20,6 @@ const Memo = () => {
       <input
         type="checkbox"
         onChange={(e) => {
-          console.log(e.target.checked);
           setShowMemo(e.target.checked);
         }}
         value={showMemo}
