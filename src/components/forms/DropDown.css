@@ -1,0 +1,15 @@
+.dropdown {
+  display: flex;
+}
+.form-option {
+  padding-left: 1rem;
+}
+.button-option {
+  background-color: white;
+  cursor: pointer;
+  width: auto;
+}
+
+.option-type {
+  border: 1px solid gray;
+}
