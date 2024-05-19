@@ -1,6 +1,5 @@
 import "./App.css";
 import InputForm from "./components/InputForm";
-import FilterAndSortBy from "./components/FilterAndSortBy";
 import ItemList from "./components/ItemList";
 import { useState } from "react";
 
@@ -71,7 +70,11 @@ function App() {
       value: "priceDown",
       findTarget: (itemInfo) => itemInfo.price,
     },
-    { label: "최신순", value: "latest", target: (itemInfo) => itemInfo.date },
+    {
+      label: "최신순",
+      value: "latest",
+      findTarget: (itemInfo) => itemInfo.date,
+    },
     {
       label: "오래된 순",
       value: "oldest",
@@ -80,12 +83,6 @@ function App() {
   ];
   const getFormData = (data) => {
     setShowList((preList) => [data, ...preList]);
-  };
-
-  const filterByType = (data) => {
-    // data는 list의 value값
-    const filteredList = showList.filter((item) => item.type === data);
-    setShowList(filteredList);
   };
 
   const sortBy = (data) => {
@@ -125,14 +122,13 @@ function App() {
         getFormData={getFormData}
         typeList={typeList}
       />
-      <FilterAndSortBy
+      <ItemList
+        showList={showList}
         typeList={typeList}
         sortList={sortList}
-        filterByType={filterByType}
         sortBy={sortBy}
         filterByTerm={filterByTerm}
       />
-      <ItemList showList={showList} />
     </div>
   );
 }
