@@ -1,32 +1,43 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import "./DropDown.css";
 
 const DropDown = (props) => {
   const [showOption, setShowOption] = useState(false);
   const [typeLabel, setTypeLabel] = useState("");
-  const typeValue = useRef(null);
 
   const handleclick = () => {
     setShowOption((preState) => !preState);
   };
-  const handleclickOption = (typeObj, e) => {
-    setTypeLabel(typeObj.label);
+  const handleclickOption = (optionObj, e) => {
+    setTypeLabel(optionObj.label);
     setShowOption(false);
     props.changeData?.(e);
 
     //type filter
-    typeValue.current = typeObj.value;
-    props.filterByType?.(typeValue.current);
+
+    props.filterByType?.(optionObj.value);
+
+    //sort
+
+    props.sortBy?.(optionObj.value);
   };
 
-  const renderOptions = props.optionList.map((typeObj, index) => {
+  const renderOptions = props.optionList.map((optionObj) => {
+    let className;
+    if (props.optionDefault === "유형 옵션") {
+      className = "type";
+    } else if (props.optionDefault === "유형 필터") {
+      className = "filter";
+    } else if (props.optionDefault === "정렬 기준") {
+      className = "sort";
+    }
     return (
       <input
-        class="type"
+        class={className}
         type="button"
-        onClick={(e) => handleclickOption(typeObj, e)}
-        value={typeObj.label}
-        name={typeObj.value}
+        onClick={(e) => handleclickOption(optionObj, e)}
+        value={optionObj.label}
+        name={optionObj.value}
       ></input>
     );
   });

@@ -10,7 +10,11 @@ const FilterAndSortBy = (props) => {
         optionDefault={"유형 필터"}
         filterByType={props.filterByType}
       />
-      <DropDown optionList={props.sortList} optionDefault={"정렬 기준"} />
+      <DropDown
+        optionList={props.sortList}
+        optionDefault={"정렬 기준"}
+        sortBy={props.sortBy}
+      />
       <div className="class-time-start">
         <label for="start-date">시작 기간</label>
         <input type="date" id="start-date" />

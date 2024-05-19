@@ -61,22 +61,48 @@ function App() {
   ];
 
   const sortList = [
-    { label: "가격 높은 순", value: "priceUp" },
-    { label: "가격 낮은 순", value: "priceDown" },
-    { label: "최신순", value: "latest" },
-    { label: "오래된 순", value: "oldest" },
+    {
+      label: "가격 높은 순",
+      value: "priceUp",
+      findTarget: (itemInfo) => itemInfo.price,
+    },
+    {
+      label: "가격 낮은 순",
+      value: "priceDown",
+      findTarget: (itemInfo) => itemInfo.price,
+    },
+    { label: "최신순", value: "latest", target: (itemInfo) => itemInfo.date },
+    {
+      label: "오래된 순",
+      value: "oldest",
+      findTarget: (itemInfo) => itemInfo.date,
+    },
   ];
   const getFormData = (data) => {
     console.log(data);
   };
 
   const filterByType = (data) => {
+    // data는 list의 value값
     const filteredList = showList.filter((item) => item.type === data);
     setShowList(filteredList);
   };
 
-  const getSortBy = (data) => {
-    console.log(data);
+  const sortBy = (data) => {
+    // data는 list의 value값
+    const { findTarget } = sortList.find((column) => column.value === data);
+    const sortedList = showList.sort((a, b) => {
+      const valueA = findTarget(a);
+      const valueB = findTarget(b);
+      if (data === "priceDown" || data === "oldest") {
+        //asc
+        return valueA - valueB;
+      } else if (data === "priceUp" || data === "latest") {
+        // desc
+        return valueB - valueA;
+      }
+    });
+    setShowList(sortedList);
   };
 
   return (
@@ -90,7 +116,7 @@ function App() {
         typeList={typeList}
         sortList={sortList}
         filterByType={filterByType}
-        getSortBy={getSortBy}
+        sortBy={sortBy}
       />
       <ItemList />
     </div>
