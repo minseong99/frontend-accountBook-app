@@ -105,6 +105,19 @@ function App() {
     setShowList(sortedList);
   };
 
+  const filterByTerm = (start, end) => {
+    console.log(start, end);
+    const startTerm = start ? new Date(start) : new Date(0);
+    const endTerm = end ? new Date(end) : new Date();
+    const filteredList = showList.filter((itemInfo) => {
+      const itemDateTime = new Date(itemInfo.date).getTime();
+      return (
+        itemDateTime >= startTerm.getTime() && itemDateTime <= endTerm.getTime()
+      );
+    });
+    setShowList(filteredList);
+  };
+
   return (
     <div className="wrapper">
       <InputForm
@@ -117,6 +130,7 @@ function App() {
         sortList={sortList}
         filterByType={filterByType}
         sortBy={sortBy}
+        filterByTerm={filterByTerm}
       />
       <ItemList />
     </div>

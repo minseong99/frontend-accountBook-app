@@ -1,8 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import DropDown from "./forms/DropDown";
 import "./FilterAndSortBy.css";
 
 const FilterAndSortBy = (props) => {
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  const handleChange = (e) => {
+    const id = e.target.id;
+    if (id === "start-date") {
+      setStartDate(e.target.value);
+      props.filterByTerm(e.target.value, endDate);
+    } else if (id === "end-date") {
+      setEndDate(e.target.value);
+      props.filterByTerm(startDate, e.target.value);
+    }
+  };
+
   return (
     <div className="form-filter-sortby">
       <DropDown
@@ -17,11 +31,21 @@ const FilterAndSortBy = (props) => {
       />
       <div className="class-time-start">
         <label for="start-date">시작 기간</label>
-        <input type="date" id="start-date" />
+        <input
+          type="date"
+          id="start-date"
+          value={startDate}
+          onChange={handleChange}
+        />
       </div>
       <div className="class-time-end">
         <label for="end-date">끝 기간</label>
-        <input type="date" id="end-date" />
+        <input
+          type="date"
+          id="end-date"
+          value={endDate}
+          onChange={handleChange}
+        />
       </div>
     </div>
   );
