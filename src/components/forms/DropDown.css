@@ -1,8 +1,7 @@
-.dropdown {
-  display: flex;
-}
 .form-option {
   padding-left: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 .button-option {
   background-color: white;

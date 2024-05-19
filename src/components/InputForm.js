@@ -3,7 +3,7 @@ import DropDown from "./forms/DropDown";
 import Memo from "./forms/Memo";
 import "./InputForm.css";
 
-const InputForm = ({ config, getData }) => {
+const InputForm = ({ config, getData, typeList }) => {
   const [purchaseInfo, setPurchaseInfo] = useState({
     name: "",
     price: 0,
@@ -48,7 +48,14 @@ const InputForm = ({ config, getData }) => {
         ></input>
       </div>
 
-      <DropDown changeData={changeData} />
+      <div class="dropdown">
+        <label for="type">유형</label>
+        <DropDown
+          changeData={changeData}
+          optionDefault={"유형옵션"}
+          typeList={typeList}
+        />
+      </div>
 
       <div>
         <label for="date">구입 날짜</label>

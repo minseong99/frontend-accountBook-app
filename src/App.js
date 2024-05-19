@@ -48,13 +48,23 @@ function App() {
       }),
     },
   ];
+
+  const typeList = [
+    "식료품",
+    "패션의류/잡화",
+    "뷰티",
+    "유아동",
+    "주방용품",
+    "생활용품",
+    "스포츠",
+  ];
   const getData = (data) => {
     console.log(data);
   };
 
   return (
     <div className="Wrapper">
-      <InputForm config={config} getData={getData} />
+      <InputForm config={config} getData={getData} typeList={typeList} />
       <SortByForm />
       <ItemList />
     </div>
