@@ -5,6 +5,7 @@ import { useState } from "react";
 
 function App() {
   const [showList, setShowList] = useState([]);
+  const [renderList, setRenderList] = useState([]);
   const config = [
     {
       label: "name",
@@ -63,12 +64,12 @@ function App() {
     {
       label: "가격 높은 순",
       value: "priceUp",
-      findTarget: (itemInfo) => itemInfo.price,
+      findTarget: (itemInfo) => Number(itemInfo.price),
     },
     {
       label: "가격 낮은 순",
       value: "priceDown",
-      findTarget: (itemInfo) => itemInfo.price,
+      findTarget: (itemInfo) => Number(itemInfo.price),
     },
     {
       label: "최신순",
@@ -83,23 +84,7 @@ function App() {
   ];
   const getFormData = (data) => {
     setShowList((preList) => [data, ...preList]);
-  };
-
-  const sortBy = (data) => {
-    // data는 list의 value값
-    const { findTarget } = sortList.find((column) => column.value === data);
-    const sortedList = showList.sort((a, b) => {
-      const valueA = findTarget(a);
-      const valueB = findTarget(b);
-      if (data === "priceDown" || data === "oldest") {
-        //asc
-        return valueA - valueB;
-      } else if (data === "priceUp" || data === "latest") {
-        // desc
-        return valueB - valueA;
-      }
-    });
-    setShowList(sortedList);
+    setRenderList((preList) => [data, ...preList]);
   };
 
   const filterByTerm = (start, end) => {
@@ -126,8 +111,9 @@ function App() {
         showList={showList}
         typeList={typeList}
         sortList={sortList}
-        sortBy={sortBy}
         filterByTerm={filterByTerm}
+        renderList={renderList}
+        setRenderList={setRenderList}
       />
     </div>
   );
