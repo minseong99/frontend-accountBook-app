@@ -5,7 +5,7 @@ import ItemList from "./components/ItemList";
 import { useState } from "react";
 
 function App() {
-  const [showList, setShowList] = useState([{}]);
+  const [showList, setShowList] = useState([]);
   const config = [
     {
       label: "name",
@@ -79,7 +79,7 @@ function App() {
     },
   ];
   const getFormData = (data) => {
-    console.log(data);
+    setShowList((preList) => [data, ...preList]);
   };
 
   const filterByType = (data) => {
@@ -132,7 +132,7 @@ function App() {
         sortBy={sortBy}
         filterByTerm={filterByTerm}
       />
-      <ItemList />
+      <ItemList showList={showList} />
     </div>
   );
 }

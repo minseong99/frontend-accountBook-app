@@ -10,7 +10,7 @@ const InputForm = ({ config, getFormData, typeList }) => {
     type: "",
     date: null,
     memo: "",
-    repurchase: true,
+    repurchase: "true",
   });
 
   const changeData = (e) => {

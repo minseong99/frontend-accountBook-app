@@ -24,7 +24,7 @@ const DropDown = (props) => {
 
   const renderOptions = props.optionList.map((optionObj) => {
     let className;
-    if (props.optionDefault === "유형 옵션") {
+    if (props.optionDefault === "유형옵션") {
       className = "type";
     } else if (props.optionDefault === "유형 필터") {
       className = "filter";
