@@ -20,7 +20,6 @@ const DropDown = (props) => {
         class="type"
         type="button"
         onClick={(e) => handleclickOption(type, e)}
-        key={index}
         value={type}
       ></input>
     );
