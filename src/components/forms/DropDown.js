@@ -1,26 +1,32 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./DropDown.css";
 
 const DropDown = (props) => {
   const [showOption, setShowOption] = useState(false);
-  const [type, setType] = useState("");
+  const [typeLabel, setTypeLabel] = useState("");
+  const typeValue = useRef(null);
 
   const handleclick = () => {
     setShowOption((preState) => !preState);
   };
-  const handleclickOption = (type, e) => {
-    setType(type);
+  const handleclickOption = (typeObj, e) => {
+    setTypeLabel(typeObj.label);
     setShowOption(false);
-    props?.changeData(e);
+    props.changeData?.(e);
+
+    //type filter
+    typeValue.current = typeObj.value;
+    props.filterByType?.(typeValue.current);
   };
 
-  const renderOptions = props.typeList.map((type, index) => {
+  const renderOptions = props.optionList.map((typeObj, index) => {
     return (
       <input
         class="type"
         type="button"
-        onClick={(e) => handleclickOption(type, e)}
-        value={type}
+        onClick={(e) => handleclickOption(typeObj, e)}
+        value={typeObj.label}
+        name={typeObj.value}
       ></input>
     );
   });
@@ -31,7 +37,7 @@ const DropDown = (props) => {
         class="button-option"
         onClick={handleclick}
         type="button"
-        value={type ? type : props.optionDefault}
+        value={typeLabel ? typeLabel : props.optionDefault}
       ></input>
       {/* 드롭다운구현 */}
       {showOption && <>{renderOptions}</>}

@@ -1,0 +1,18 @@
+.form-filter-sortby {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.class-time-start {
+  width: 7rem;
+  border: 1px solid black;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  height: 2.75rem;
+}
+.class-time-end {
+  width: 7rem;
+  border: 1px solid black;
+  height: 2.75rem;
+}

@@ -3,7 +3,7 @@ import DropDown from "./forms/DropDown";
 import Memo from "./forms/Memo";
 import "./InputForm.css";
 
-const InputForm = ({ config, getData, typeList }) => {
+const InputForm = ({ config, getFormData, typeList }) => {
   const [purchaseInfo, setPurchaseInfo] = useState({
     name: "",
     price: 0,
@@ -23,7 +23,7 @@ const InputForm = ({ config, getData, typeList }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    getData(purchaseInfo);
+    getFormData(purchaseInfo);
   };
 
   return (
@@ -53,7 +53,7 @@ const InputForm = ({ config, getData, typeList }) => {
         <DropDown
           changeData={changeData}
           optionDefault={"유형옵션"}
-          typeList={typeList}
+          optionList={typeList}
         />
       </div>
 

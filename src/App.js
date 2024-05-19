@@ -1,9 +1,11 @@
 import "./App.css";
 import InputForm from "./components/InputForm";
-import SortByForm from "./components/SortByForm";
+import FilterAndSortBy from "./components/FilterAndSortBy";
 import ItemList from "./components/ItemList";
+import { useState } from "react";
 
 function App() {
+  const [showList, setShowList] = useState([{}]);
   const config = [
     {
       label: "name",
@@ -23,7 +25,7 @@ function App() {
       label: "type",
       makeState: (preState, event) => ({
         ...preState,
-        type: event.target.value,
+        type: event.target.name,
       }),
     },
     {
@@ -50,22 +52,46 @@ function App() {
   ];
 
   const typeList = [
-    "식료품",
-    "패션의류/잡화",
-    "뷰티",
-    "유아동",
-    "주방용품",
-    "생활용품",
-    "스포츠",
+    { label: "식료품", value: "foods" },
+    { label: "패션의류/잡화", value: "clothes" },
+    { label: "뷰티", value: "beauty" },
+    { label: "유아동", value: "baby" },
+    { label: "주방용품", value: "kitchen" },
+    { label: "스포츠", value: "sports" },
   ];
-  const getData = (data) => {
+
+  const sortList = [
+    { label: "가격 높은 순", value: "priceUp" },
+    { label: "가격 낮은 순", value: "priceDown" },
+    { label: "최신순", value: "latest" },
+    { label: "오래된 순", value: "oldest" },
+  ];
+  const getFormData = (data) => {
+    console.log(data);
+  };
+
+  const filterByType = (data) => {
+    const filteredList = showList.filter((item) => item.type === data);
+    setShowList(filteredList);
+  };
+
+  const getSortBy = (data) => {
     console.log(data);
   };
 
   return (
-    <div className="Wrapper">
-      <InputForm config={config} getData={getData} typeList={typeList} />
-      <SortByForm />
+    <div className="wrapper">
+      <InputForm
+        config={config}
+        getFormData={getFormData}
+        typeList={typeList}
+      />
+      <FilterAndSortBy
+        typeList={typeList}
+        sortList={sortList}
+        filterByType={filterByType}
+        getSortBy={getSortBy}
+      />
       <ItemList />
     </div>
   );
