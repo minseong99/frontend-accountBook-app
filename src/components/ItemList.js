@@ -1,9 +1,14 @@
 import "./ItemList.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FilterAndSortBy from "./FilterAndSortBy";
 
 const ItemList = (props) => {
   const [sortBy, setSortBy] = useState(null);
+  const [filterType, setFilterType] = useState(null);
+
+  useEffect(() => {
+    sort(sortBy);
+  }, [filterType]);
 
   const sort = (data) => {
     // data는 list의 value값
@@ -18,7 +23,7 @@ const ItemList = (props) => {
       if (data === "priceDown" || data === "oldest") {
         //asc
         return valueA - valueB;
-      } else if (data === "priceUp" || data === "latest") {
+      } else {
         // desc
         return valueB - valueA;
       }
@@ -30,12 +35,9 @@ const ItemList = (props) => {
   const filterByType = (data) => {
     // data는 list의 value값
     const filteredList = props.showList.filter((item) => item.type === data);
-    console.log(sortBy);
-    if (sortBy) {
-      sort(sortBy);
-    } else {
-      props.setRenderList(filteredList);
-    }
+
+    props.setRenderList(filteredList);
+    setFilterType(data);
   };
 
   return (
