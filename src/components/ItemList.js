@@ -3,18 +3,19 @@ import { useEffect, useState } from "react";
 import FilterAndSortBy from "./FilterAndSortBy";
 
 const ItemList = (props) => {
-  // const [sortBy, setSortBy] = useState(null);
-  // const [filterType, setFilterType] = useState(null);
-  // const [filterTerm, setFilterTerm] = useState({
-  //   start: null,
-  //   end: null,
-  // });
+  const [sortBy, setSortBy] = useState(null);
+  const [filterType, setFilterType] = useState(null);
 
-  // useEffect(() => {
-  //   sort(sortBy);
-  //   // filterByTerm(filterTerm.start, filterTerm.end);
-  // }, [filterType, filterTerm]);
+  const [startFilter, setStartFilter] = useState(null);
+  const [endFilter, setEndFilter] = useState(null);
 
+  useEffect(() => {
+    filterByType(filterType);
+    sort(sortBy);
+    filterByTerm(startFilter, endFilter);
+  }, [filterType, sortBy, startFilter, endFilter]);
+
+  // 정렬기준에 따른 기준
   const sort = (data) => {
     if (data === null) return;
     // data는 list의 value값
@@ -35,18 +36,20 @@ const ItemList = (props) => {
       }
     });
     props.setRenderList(sortedList);
-    // setSortBy(data);
+    setSortBy(data);
   };
 
+  // 유형에 따른 필터링
   const filterByType = (data) => {
     if (data === null) return;
     // data는 list의 value값
-    const filteredList = props.renderList.filter((item) => item.type === data);
+    const filteredList = props.showList.filter((item) => item.type === data);
 
     props.setRenderList(filteredList);
-    // setFilterType(data);
+    setFilterType(data);
   };
 
+  // 기간 선택에 따른 필터링
   const filterByTerm = (start, end) => {
     if (!start || !end) return;
 
@@ -59,10 +62,8 @@ const ItemList = (props) => {
       );
     });
     props.setRenderList(filteredByTermList);
-    // setFilterTerm({
-    //   start: start,
-    //   end: end,
-    // });
+    setStartFilter(start);
+    setEndFilter(end);
   };
 
   return (
