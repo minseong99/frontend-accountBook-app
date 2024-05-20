@@ -6,6 +6,7 @@ import { useState } from "react";
 function App() {
   const [showList, setShowList] = useState([]);
   const [renderList, setRenderList] = useState([]);
+
   const config = [
     {
       label: "name",
@@ -74,17 +75,18 @@ function App() {
     {
       label: "최신순",
       value: "latest",
-      findTarget: (itemInfo) => itemInfo.date,
+      findTarget: (itemInfo) => new Date(itemInfo.date).getTime(),
     },
     {
       label: "오래된 순",
       value: "oldest",
-      findTarget: (itemInfo) => itemInfo.date,
+      findTarget: (itemInfo) => new Date(itemInfo.date).getTime(),
     },
   ];
+
   const getFormData = (data) => {
     setShowList((preList) => [data, ...preList]);
-    setRenderList((preList) => [data, ...preList]);
+    setRenderList([data, ...showList]);
   };
 
   const filterByTerm = (start, end) => {

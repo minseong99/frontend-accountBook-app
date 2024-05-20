@@ -11,6 +11,7 @@ const ItemList = (props) => {
   }, [filterType]);
 
   const sort = (data) => {
+    if (data === null) return;
     // data는 list의 value값
     const { findTarget } = props.sortList.find(
       (column) => column.value === data
@@ -19,6 +20,8 @@ const ItemList = (props) => {
     const sortedList = [...props.renderList].sort((a, b) => {
       const valueA = findTarget(a);
       const valueB = findTarget(b);
+
+      console.log(valueA - valueB);
 
       if (data === "priceDown" || data === "oldest") {
         //asc
@@ -33,6 +36,7 @@ const ItemList = (props) => {
   };
 
   const filterByType = (data) => {
+    if (data === null) return;
     // data는 list의 value값
     const filteredList = props.showList.filter((item) => item.type === data);
 
