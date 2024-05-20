@@ -1,19 +1,13 @@
 import "./ItemList.css";
-import { useEffect, useState } from "react";
+// import { useState } from "react";
 import FilterAndSortBy from "./FilterAndSortBy";
 
 const ItemList = (props) => {
-  const [sortBy, setSortBy] = useState(null);
-  const [filterType, setFilterType] = useState(null);
+  // const [sortBy, setSortBy] = useState(null);
+  // const [filterType, setFilterType] = useState(null);
 
-  const [startFilter, setStartFilter] = useState(null);
-  const [endFilter, setEndFilter] = useState(null);
-
-  useEffect(() => {
-    filterByType(filterType);
-    sort(sortBy);
-    filterByTerm(startFilter, endFilter);
-  }, [filterType, sortBy, startFilter, endFilter]);
+  // const [startFilter, setStartFilter] = useState(null);
+  // const [endFilter, setEndFilter] = useState(null);
 
   // 정렬기준에 따른 기준
   const sort = (data) => {
@@ -36,7 +30,7 @@ const ItemList = (props) => {
       }
     });
     props.setRenderList(sortedList);
-    setSortBy(data);
+    // setSortBy(data);
   };
 
   // 유형에 따른 필터링
@@ -46,24 +40,23 @@ const ItemList = (props) => {
     const filteredList = props.showList.filter((item) => item.type === data);
 
     props.setRenderList(filteredList);
-    setFilterType(data);
+    // setFilterType(data);
   };
 
   // 기간 선택에 따른 필터링
   const filterByTerm = (start, end) => {
     if (!start || !end) return;
 
-    const startTerm = start ? new Date(start) : new Date(0);
-    const endTerm = end ? new Date(end) : new Date();
-    const filteredByTermList = props.renderList.filter((itemInfo) => {
+    const startTerm = start ? new Date(start).getTime() : new Date(0).getTime();
+    const endTerm = end ? new Date(end).getTime() : new Date().getTime();
+    if (startTerm > endTerm) return;
+    const filteredByTermList = props.showList.filter((itemInfo) => {
       const itemDateTime = new Date(itemInfo.date).getTime();
-      return (
-        itemDateTime >= startTerm.getTime() && itemDateTime <= endTerm.getTime()
-      );
+      return itemDateTime >= startTerm && itemDateTime <= endTerm;
     });
     props.setRenderList(filteredByTermList);
-    setStartFilter(start);
-    setEndFilter(end);
+    // setStartFilter(start);
+    // setEndFilter(end);
   };
 
   return (
@@ -79,9 +72,8 @@ const ItemList = (props) => {
         {props.renderList.map((itemInfo) => {
           const repurchaseText =
             itemInfo.repurchase === "true" ? "재구매o" : "재구매x";
-
           return (
-            <div key={itemInfo.date} class="list-item">
+            <div key={itemInfo.id} class="list-item">
               <label for="name">{itemInfo.name}</label>
               <label for="price">{itemInfo.price}</label>
               <label for="type">{itemInfo.type}</label>

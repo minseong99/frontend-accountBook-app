@@ -5,6 +5,7 @@ import "./InputForm.css";
 
 const InputForm = ({ config, getFormData, typeList }) => {
   const [purchaseInfo, setPurchaseInfo] = useState({
+    id: null,
     name: "",
     price: 0,
     type: "",

@@ -6,6 +6,8 @@ import { useState } from "react";
 function App() {
   const [showList, setShowList] = useState([]);
   const [renderList, setRenderList] = useState([]);
+  console.log(showList);
+  console.log(renderList);
 
   const config = [
     {
@@ -85,8 +87,12 @@ function App() {
   ];
 
   const getFormData = (data) => {
-    setShowList((preList) => [data, ...preList]);
-    setRenderList([data, ...showList]);
+    const itemInfoObj = {
+      ...data,
+      id: new Date().getTime(),
+    };
+    setShowList([itemInfoObj, ...showList]);
+    setRenderList([itemInfoObj, ...showList]);
   };
 
   return (
