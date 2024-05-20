@@ -3,12 +3,17 @@ import { useEffect, useState } from "react";
 import FilterAndSortBy from "./FilterAndSortBy";
 
 const ItemList = (props) => {
-  const [sortBy, setSortBy] = useState(null);
-  const [filterType, setFilterType] = useState(null);
+  // const [sortBy, setSortBy] = useState(null);
+  // const [filterType, setFilterType] = useState(null);
+  // const [filterTerm, setFilterTerm] = useState({
+  //   start: null,
+  //   end: null,
+  // });
 
-  useEffect(() => {
-    sort(sortBy);
-  }, [filterType]);
+  // useEffect(() => {
+  //   sort(sortBy);
+  //   // filterByTerm(filterTerm.start, filterTerm.end);
+  // }, [filterType, filterTerm]);
 
   const sort = (data) => {
     if (data === null) return;
@@ -21,8 +26,6 @@ const ItemList = (props) => {
       const valueA = findTarget(a);
       const valueB = findTarget(b);
 
-      console.log(valueA - valueB);
-
       if (data === "priceDown" || data === "oldest") {
         //asc
         return valueA - valueB;
@@ -32,16 +35,34 @@ const ItemList = (props) => {
       }
     });
     props.setRenderList(sortedList);
-    setSortBy(data);
+    // setSortBy(data);
   };
 
   const filterByType = (data) => {
     if (data === null) return;
     // data는 list의 value값
-    const filteredList = props.showList.filter((item) => item.type === data);
+    const filteredList = props.renderList.filter((item) => item.type === data);
 
     props.setRenderList(filteredList);
-    setFilterType(data);
+    // setFilterType(data);
+  };
+
+  const filterByTerm = (start, end) => {
+    if (!start || !end) return;
+
+    const startTerm = start ? new Date(start) : new Date(0);
+    const endTerm = end ? new Date(end) : new Date();
+    const filteredByTermList = props.renderList.filter((itemInfo) => {
+      const itemDateTime = new Date(itemInfo.date).getTime();
+      return (
+        itemDateTime >= startTerm.getTime() && itemDateTime <= endTerm.getTime()
+      );
+    });
+    props.setRenderList(filteredByTermList);
+    // setFilterTerm({
+    //   start: start,
+    //   end: end,
+    // });
   };
 
   return (
@@ -51,7 +72,7 @@ const ItemList = (props) => {
         sortList={props.sortList}
         filterByType={filterByType}
         sortBy={sort}
-        filterByTerm={props.filterByTerm}
+        filterByTerm={filterByTerm}
       />
       <div class="list-items">
         {props.renderList.map((itemInfo) => {

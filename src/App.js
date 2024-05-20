@@ -89,19 +89,6 @@ function App() {
     setRenderList([data, ...showList]);
   };
 
-  const filterByTerm = (start, end) => {
-    console.log(start, end);
-    const startTerm = start ? new Date(start) : new Date(0);
-    const endTerm = end ? new Date(end) : new Date();
-    const filteredList = showList.filter((itemInfo) => {
-      const itemDateTime = new Date(itemInfo.date).getTime();
-      return (
-        itemDateTime >= startTerm.getTime() && itemDateTime <= endTerm.getTime()
-      );
-    });
-    setShowList(filteredList);
-  };
-
   return (
     <div className="wrapper">
       <InputForm
@@ -113,7 +100,6 @@ function App() {
         showList={showList}
         typeList={typeList}
         sortList={sortList}
-        filterByTerm={filterByTerm}
         renderList={renderList}
         setRenderList={setRenderList}
       />
