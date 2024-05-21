@@ -6,8 +6,6 @@ import { useState } from "react";
 function App() {
   const [showList, setShowList] = useState([]);
   const [renderList, setRenderList] = useState([]);
-  console.log(showList);
-  console.log(renderList);
 
   const config = [
     {
