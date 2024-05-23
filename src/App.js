@@ -7,6 +7,7 @@ import { testItemList } from "./components/util/Util";
 function App() {
   const [showList, setShowList] = useState(testItemList);
   const [renderList, setRenderList] = useState(null);
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const getFormData = (data) => {
     const itemInfoObj = {
@@ -14,7 +15,7 @@ function App() {
       id: new Date().getTime(),
     };
     setShowList([itemInfoObj, ...showList]);
-    setRenderList([itemInfoObj, ...showList]);
+    setIsSubmit(true);
   };
 
   return (
@@ -24,6 +25,8 @@ function App() {
         showList={showList}
         renderList={renderList}
         setRenderList={setRenderList}
+        isSubmit={isSubmit}
+        setIsSubmit={setIsSubmit}
       />
     </div>
   );

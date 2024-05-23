@@ -77,7 +77,7 @@ const sortList = [
 
 const testItemList = [
   {
-    id: null,
+    id: 1,
     name: "라면",
     price: 1000,
     type: "foods",
@@ -86,7 +86,7 @@ const testItemList = [
     repurchase: "true",
   },
   {
-    id: null,
+    id: 2,
     name: "라면",
     price: 10000,
     type: "foods",
@@ -95,7 +95,7 @@ const testItemList = [
     repurchase: "true",
   },
   {
-    id: null,
+    id: 3,
     name: "라면",
     price: 100000,
     type: "foods",
@@ -104,7 +104,7 @@ const testItemList = [
     repurchase: "true",
   },
   {
-    id: null,
+    id: 4,
     name: "립스틱",
     price: 2000,
     type: "beauty",
@@ -113,7 +113,7 @@ const testItemList = [
     repurchase: "true",
   },
   {
-    id: null,
+    id: 5,
     name: "립스틱",
     price: 20000,
     type: "beauty",
@@ -122,7 +122,7 @@ const testItemList = [
     repurchase: "true",
   },
   {
-    id: null,
+    id: 6,
     name: "립스틱",
     price: 200000,
     type: "beauty",

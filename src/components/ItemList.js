@@ -11,6 +11,10 @@ const ItemList = (props) => {
   const [startFilter, setStartFilter] = useState(null);
   const [endFilter, setEndFilter] = useState(null);
 
+  useEffect(() => {
+    makeFilterSortList("submit", false);
+  }, [props.isSubmit]);
+
   // 정렬기준에 따른 정렬
   const sort = (data, isSelectedNew) => {
     if (data === null) return;
@@ -98,6 +102,16 @@ const ItemList = (props) => {
     else if (com === "filterTerm" && isSelectedNew) {
       filterByType(filterType, false);
       sort(sortBy, false);
+    }
+    // 제출이 일어날 경우
+    else if (com === "submit") {
+      preList = props.showList;
+
+      filterByType(filterType, false);
+      sort(sortBy, false);
+      filterByTerm(startFilter, endFilter, false);
+
+      props.setIsSubmit(false);
     }
   };
 
