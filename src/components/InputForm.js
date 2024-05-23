@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import DropDown from "./forms/DropDown";
 import Memo from "./forms/Memo";
 import "./InputForm.css";
+import { config, typeList } from "./util/Util.js";
 
-const InputForm = ({ config, getFormData, typeList }) => {
+const InputForm = ({ getFormData }) => {
   const [purchaseInfo, setPurchaseInfo] = useState({
     id: null,
     name: "",

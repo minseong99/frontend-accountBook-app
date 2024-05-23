@@ -15,11 +15,10 @@ const DropDown = (props) => {
 
     //type filter
 
-    props.filterByType?.(optionObj.value);
-
+    props.filterByType?.(optionObj.value, true);
     //sort
 
-    props.sortBy?.(optionObj.value);
+    props.sortBy?.(optionObj.value, true);
   };
 
   const renderOptions = props.optionList.map((optionObj) => {

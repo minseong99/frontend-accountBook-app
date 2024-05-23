@@ -1,6 +1,9 @@
 import "./ItemList.css";
 import { useEffect, useState } from "react";
 import FilterAndSortBy from "./FilterAndSortBy";
+import { sortList } from "./util/Util.js";
+
+let preList;
 
 const ItemList = (props) => {
   const [sortBy, setSortBy] = useState(null);
@@ -8,22 +11,17 @@ const ItemList = (props) => {
   const [startFilter, setStartFilter] = useState(null);
   const [endFilter, setEndFilter] = useState(null);
 
-  useEffect(() => {
-    filterByType(filterType);
-    sort(sortBy);
-    filterByTerm(startFilter, endFilter);
-  }, [filterType, sortBy, startFilter, endFilter]);
-
-  // 정렬기준에 따른 기준
-  const sort = (data) => {
+  // 정렬기준에 따른 정렬
+  const sort = (data, isSelectedNew) => {
     if (data === null) return;
 
-    // data는 list의 value값
-    const { findTarget } = props.sortList.find(
-      (column) => column.value === data
-    );
+    // 새로운것을 선택한지에 안한지에 따라 바꿀 리스트가 달라짐
+    const targetList = isSelectedNew ? props.showList : preList;
 
-    const sortedList = [...props.renderList].sort((a, b) => {
+    // data는 list의 value값
+    const { findTarget } = sortList.find((column) => column.value === data);
+
+    const sortedList = [...targetList].sort((a, b) => {
       const valueA = findTarget(a);
       const valueB = findTarget(b);
 
@@ -36,41 +34,41 @@ const ItemList = (props) => {
       }
     });
     props.setRenderList(sortedList);
-    console.log(props.renderList);
-
     setSortBy(data);
+
+    preList = sortedList;
+    makeFilterSortList("sort", isSelectedNew);
   };
 
   // 유형에 따른 필터링
-  const filterByType = (data) => {
+  const filterByType = (data, isSelectedNew) => {
     if (data === null) return;
+    // 새로운것을 선택한지에 안한지에 따라 바꿀 리스트가 달라짐
+    const targetList = isSelectedNew ? props.showList : preList;
 
     // data는 list의 value값
-    const filteredList = props.showList.filter((item) => item.type === data);
+    const filteredList = targetList.filter((item) => item.type === data);
 
     props.setRenderList(filteredList);
-
     setFilterType(data);
+
+    preList = filteredList;
+    makeFilterSortList("filterType", isSelectedNew);
   };
 
   // 기간 선택에 따른 필터링
-  const filterByTerm = (start, end) => {
+  const filterByTerm = (start, end, isSelectedNew) => {
     if (!start || !end) return;
+
+    // 새로운것을 선택한지에 안한지에 따라 바꿀 리스트가 달라짐
+    const targetList = isSelectedNew ? props.showList : preList;
     const startTerm = new Date(start).getTime();
     const endTerm = new Date(end).getTime();
 
-    // 범위가 작은것에서 커질때 안나타나는 현상을 해결하기 위해
-    if (startTerm < startFilter || endTerm > endFilter) {
-      filterByType(filterType);
-
-      setStartFilter(startTerm);
-      setEndFilter(endTerm);
-      return;
-    }
-
     // 시작기간을 더 늦게 설정할경우 종료
     if (startTerm > endTerm) return;
-    const filteredByTermList = props.renderList.filter((itemInfo) => {
+
+    const filteredByTermList = targetList.filter((itemInfo) => {
       const itemDateTime = new Date(itemInfo.date).getTime();
       return itemDateTime >= startTerm && itemDateTime <= endTerm;
     });
@@ -79,19 +77,41 @@ const ItemList = (props) => {
 
     setStartFilter(startTerm);
     setEndFilter(endTerm);
+
+    preList = filteredByTermList;
+    makeFilterSortList("filterTerm", isSelectedNew);
   };
+
+  // 필터 또는 정렬기준이 선택이 되면 랜더링할 리스트를 만드는 함수
+  const makeFilterSortList = (com, isSelectedNew) => {
+    // filterType이 새로 선택되었을때
+    if (com === "filterType" && isSelectedNew) {
+      sort(sortBy, false);
+      filterByTerm(startFilter, endFilter, false);
+    }
+    // 정렬기준이 새로 선택되었을때
+    else if (com === "sort" && isSelectedNew) {
+      filterByType(filterType, false);
+      filterByTerm(startFilter, endFilter, false);
+    }
+    // 구매 날짜 기간 필터가 새로 선택되었을때
+    else if (com === "filterTerm" && isSelectedNew) {
+      filterByType(filterType, false);
+      sort(sortBy, false);
+    }
+  };
+
+  const renderList = props.renderList ? props.renderList : props.showList;
 
   return (
     <>
       <FilterAndSortBy
-        typeList={props.typeList}
-        sortList={props.sortList}
         filterByType={filterByType}
         sortBy={sort}
         filterByTerm={filterByTerm}
       />
       <div class="list-items">
-        {props.renderList.map((itemInfo) => {
+        {renderList.map((itemInfo) => {
           const repurchaseText =
             itemInfo.repurchase === "true" ? "재구매o" : "재구매x";
           return (

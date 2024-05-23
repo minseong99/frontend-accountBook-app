@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import DropDown from "./forms/DropDown";
 import "./FilterAndSortBy.css";
+import { sortList, typeList } from "./util/Util.js";
 
 const FilterAndSortBy = (props) => {
   const [startDate, setStartDate] = useState(null);
@@ -10,22 +11,22 @@ const FilterAndSortBy = (props) => {
     const id = e.target.id;
     if (id === "start-date") {
       setStartDate(e.target.value);
-      props.filterByTerm(e.target.value, endDate);
+      props.filterByTerm(e.target.value, endDate, true);
     } else if (id === "end-date") {
       setEndDate(e.target.value);
-      props.filterByTerm(startDate, e.target.value);
+      props.filterByTerm(startDate, e.target.value, true);
     }
   };
 
   return (
     <div className="form-filter-sortby">
       <DropDown
-        optionList={props.typeList}
+        optionList={typeList}
         optionDefault={"유형 필터"}
         filterByType={props.filterByType}
       />
       <DropDown
-        optionList={props.sortList}
+        optionList={sortList}
         optionDefault={"정렬 기준"}
         sortBy={props.sortBy}
       />
